@@ -18,11 +18,23 @@ export default function NewMovie() {
   const handleSubmit = (e) => {
     e.preventDefault();
     postData(form);
+    setForm({
+      title: "",
+      plot: "",
+    });
   };
 
   const postData = async (form) => {
     try {
       console.log(form);
+      const res = await fetch("/api/movie", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(form),
+      });
+      return res;
     } catch (err) {
       console.log(SyntaxError);
     }
