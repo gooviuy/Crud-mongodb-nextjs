@@ -1,11 +1,16 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 export default function NewMovie() {
+  const router = useRouter();
+
   const [form, setForm] = useState({
     title: "",
     plot: "",
   });
+
+  const [error, setError] = useState(false);
 
   const handleChange = (e) => {
     const { value, name } = e.target;
@@ -34,7 +39,15 @@ export default function NewMovie() {
         },
         body: JSON.stringify(form),
       });
-      return res;
+      const data = await res.json();
+      if (data.success == false) {
+        setError(true);
+      } else if (data.success == true) {
+        router.push("/");
+      }
+      return {
+        data,
+      };
     } catch (err) {
       console.log(SyntaxError);
     }
@@ -63,9 +76,10 @@ export default function NewMovie() {
         <button className="btn btn-primary w-50" type="submit">
           Add !
         </button>
-        <Link href="">
+        <Link href="/">
           <a className="btn btn-warning w-50 ">Go back !</a>
         </Link>
+        {error ? <h2>We couldnt added it !</h2> : null}
       </form>
     </div>
   );
