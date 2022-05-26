@@ -3,19 +3,6 @@ import Movie from "../../models/Movie";
 import Link from "next/link";
 
 export default function MoviePage({ movie, success, error }) {
-  console.log(movie);
-
-  /*   if (!success) {
-    return (
-      <div className="container text-center my-5">
-        <h1>{error}</h1>
-        <Link href="/">
-          <a className="btn btn-success">Go back !..</a>
-        </Link>
-      </div>
-    );
-  } */
-
   return (
     <div>
       <div>
@@ -61,7 +48,6 @@ export async function getServerSideProps({ params }) {
     if (!movie) {
       return { props: { success: false, error: "Film not found !" } };
     }
-    console.log(movie);
     return { props: { success: true, movie } };
   } catch (err) {
     if (err.kind === "ObjectId") {
