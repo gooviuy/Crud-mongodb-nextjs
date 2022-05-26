@@ -22,6 +22,9 @@ export default function Home({ movies }) {
             <div className="card-body">
               <div className="h5 text-uppercase">{title}</div>
               <p className="fw-light">{plot} </p>
+              <Link href={_id.toString()}>
+                <a className="btn btn-success btn-sm me-2">More Info..!</a>
+              </Link>
             </div>
           </div>
         ))}
