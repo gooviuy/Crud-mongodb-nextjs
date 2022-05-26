@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Link from "next/link";
 import dbConnect from "../lib/dbConnect";
 import Movie from "../models/Movie";
 
@@ -13,11 +14,17 @@ export default function Home({ movies }) {
       </Head>
       <main className="container">
         <h1>Movies</h1>
+        <Link href="/newmovie">
+          <a className="btn btn-primary w-100">Add a new movie</a>
+        </Link>
         {movies.map(({ _id, title, plot }) => (
           <div className="card mb-2" key={_id}>
             <div className="card-body">
               <div className="h5 text-uppercase">{title}</div>
               <p className="fw-light">{plot} </p>
+              <Link href={`/${_id}`}>
+                <a className="btn btn-success btn-sm me-2">More Info..!</a>
+              </Link>
             </div>
           </div>
         ))}
@@ -26,10 +33,10 @@ export default function Home({ movies }) {
   );
 }
 
+//solo se vera en el servidor salvo que lo pasemos por props a nuestros componentes.
 export async function getServerSideProps() {
   await dbConnect();
   const res = await Movie.find({});
-  console.log(res);
 
   const result = await Movie.find({});
   const movies = result.map((doc) => {
