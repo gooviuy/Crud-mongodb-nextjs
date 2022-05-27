@@ -1,8 +1,22 @@
 import dbConnect from "../../lib/dbConnect";
 import Movie from "../../models/Movie";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 export default function MoviePage({ movie, success, error }) {
+  const router = useRouter();
+
+  const deleteData = async (id) => {
+    try {
+      await fetch(`/api/movie/${id}`, {
+        method: "DELETE",
+      });
+      router.push("/");
+    } catch (err) {
+      console.loog(err);
+    }
+  };
+
   return (
     <div>
       <div>
@@ -28,7 +42,12 @@ export default function MoviePage({ movie, success, error }) {
                 <Link href={`${movie._id}/edit`}>
                   <a className="btn btn-warning btn-sm me-2">Edit !..</a>
                 </Link>
-                <button className="btn btn-danger btn-sm">Delete</button>
+                <button
+                  className="btn btn-danger btn-sm"
+                  onClick={() => deleteData(movie._id)}
+                >
+                  Delete
+                </button>
               </div>
             </div>
           </div>

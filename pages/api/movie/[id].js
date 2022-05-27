@@ -16,7 +16,7 @@ export default async function handler(req, res) {
         const movie = await Movie.findByIdAndUpdate(id, req.body, {
           new: true,
           runValidators: true,
-        }).lean();
+        });
         if (!movie) {
           res.status(401).json({ success: false });
         }
@@ -28,11 +28,11 @@ export default async function handler(req, res) {
       }
     case "DELETE":
       try {
-        const movie = await Movie.findByIdAndDelete(id).lean();
+        const movie = await Movie.findByIdAndDelete(id);
         if (!movie) {
           res.status(401).json({ success: false });
         }
-        return res.json({ success: true, data: movie });
+        return res.json({ success: true });
       } catch (err) {
         return res
           .status(400)
