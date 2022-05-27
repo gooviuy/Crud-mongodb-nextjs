@@ -6,14 +6,10 @@ import { useRouter } from "next/router";
 export default function MoviePage({ movie, success, error }) {
   const router = useRouter();
 
-  const deleteData = async (id) => {
-    try {
-      await fetch(`/api/movie/${id}`, {
-        method: "DELETE",
-      });
+  const handeClick = () => {
+    if (movie._id) {
+      deleteData(movie._id);
       router.push("/");
-    } catch (err) {
-      console.loog(err);
     }
   };
 
@@ -42,10 +38,7 @@ export default function MoviePage({ movie, success, error }) {
                 <Link href={`${movie._id}/edit`}>
                   <a className="btn btn-warning btn-sm me-2">Edit !..</a>
                 </Link>
-                <button
-                  className="btn btn-danger btn-sm"
-                  onClick={() => deleteData(movie._id)}
-                >
+                <button className="btn btn-danger btn-sm" onClick={handeClick}>
                   Delete
                 </button>
               </div>
