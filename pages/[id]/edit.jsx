@@ -25,8 +25,8 @@ export default function Edit() {
     );
   }
   const formData = {
-    title: "",
-    plot: "",
+    title: movie.title,
+    plot: movie.plot,
   };
 
   return (
