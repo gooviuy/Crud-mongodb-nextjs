@@ -6,7 +6,6 @@ import { postCall } from "../utils/postCall";
 //forNewMovie activa el post data
 export const Form = ({ formData, forNewMovie = true }) => {
   const router = useRouter();
-
   const [form, setForm] = useState({
     title: formData.title,
     plot: formData.plot,
@@ -22,12 +21,37 @@ export const Form = ({ formData, forNewMovie = true }) => {
     });
   };
 
+  const putData = async (form) => {
+    const { id } = router.query;
+    try {
+      const res = await fetch(`/api/movie/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json();
+      if (data.success == false) {
+        setError(true);
+      } else if (data.success == true) {
+        router.push("/");
+      }
+      return {
+        data,
+      };
+    } catch (err) {
+      console.log(SyntaxError);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (forNewMovie) {
       postCall(form);
     } else {
       //editar data
+      putData(form);
     }
 
     setForm({
