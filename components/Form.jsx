@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { postCall } from "../utils/postCall";
 
+//forNewMovie activa el post data
 export const Form = ({ formData, forNewMovie = true }) => {
   const router = useRouter();
 
@@ -23,7 +25,7 @@ export const Form = ({ formData, forNewMovie = true }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (forNewMovie) {
-      postData(form);
+      postCall(form);
     } else {
       //editar data
     }
@@ -32,29 +34,6 @@ export const Form = ({ formData, forNewMovie = true }) => {
       title: "",
       plot: "",
     });
-  };
-
-  const postData = async (form) => {
-    try {
-      const res = await fetch("/api/movie", {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(form),
-      });
-      const data = await res.json();
-      if (data.success == false) {
-        setError(true);
-      } else if (data.success == true) {
-        router.push("/");
-      }
-      return {
-        data,
-      };
-    } catch (err) {
-      console.log(SyntaxError);
-    }
   };
 
   return (
@@ -77,7 +56,7 @@ export const Form = ({ formData, forNewMovie = true }) => {
           onChange={handleChange}
         />
         <button className="btn btn-primary w-50" type="submit">
-          Add !
+          {forNewMovie ? "Add a movie" : "Edite the movie"}
         </button>
         <Link href="/">
           <a className="btn btn-warning w-50 ">Go back !</a>
