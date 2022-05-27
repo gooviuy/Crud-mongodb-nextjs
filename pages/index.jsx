@@ -36,11 +36,11 @@ export default function Home({ movies }) {
 //solo se vera en el servidor salvo que lo pasemos por props a nuestros componentes.
 export async function getServerSideProps() {
   await dbConnect();
-  const res = await Movie.find({});
 
   const result = await Movie.find({});
   const movies = result.map((doc) => {
     const movie = doc.toObject();
+
     movie._id = movie._id.toString();
     return movie;
   });

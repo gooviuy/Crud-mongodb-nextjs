@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { postCall } from "../utils/postCall";
+import { putData } from "../utils/putCall";
 
 //forNewMovie activa el post data
 export const Form = ({ formData, forNewMovie = true }) => {
@@ -21,37 +22,15 @@ export const Form = ({ formData, forNewMovie = true }) => {
     });
   };
 
-  const putData = async (form) => {
-    const { id } = router.query;
-    try {
-      const res = await fetch(`/api/movie/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(form),
-      });
-      const data = await res.json();
-      if (data.success == false) {
-        setError(true);
-      } else if (data.success == true) {
-        router.push("/");
-      }
-      return {
-        data,
-      };
-    } catch (err) {
-      console.log(SyntaxError);
-    }
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
+    //agregar data
     if (forNewMovie) {
       postCall(form);
     } else {
       //editar data
-      putData(form);
+      putData(form, router.query);
+      router.push("/");
     }
 
     setForm({
